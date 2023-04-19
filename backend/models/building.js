@@ -32,17 +32,6 @@ const buildingSchema = new mongoose.Schema({
   }]
 });
 
-buildingSchema.pre('save', async function(next) {
-  const building = this;
-  const lastBuilding = await Building.findOne().sort({ buildingId: -1 });
-  if (lastBuilding) {
-    building.buildingId = lastBuilding.buildingId + 1;
-  } else {
-    building.buildingId = 1;
-  }
-  next();
-});
-
 const Building = mongoose.model('Building', buildingSchema);
 
 module.exports = Building;

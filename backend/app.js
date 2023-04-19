@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.use('/campus', campusRoutes);
 app.use('/videoData', videoDataRoutes);
 app.use('/building', buildingRoutes);
-// app.use('/camera', cameraRoutes);
+app.use('/camera', cameraRoutes);
 
 const PORT = process.env.PORT || 3001;
 

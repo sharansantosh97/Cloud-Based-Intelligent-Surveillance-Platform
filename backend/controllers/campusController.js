@@ -5,7 +5,7 @@ const getCampuses = async (req, res, next) => {
     try {
         const campuses = await Campus.find();
         for(let campus of campuses) {
-            campus.cameras = await Campus.find(query);
+            campus.buildings = await Building.find({campusId: campus._id});
         }
         res.status(200).json({ campuses });
     } catch (error) {
@@ -48,7 +48,7 @@ const updateCampus = async (req, res, next) => {
             campus.city = req.body.city;
             campus.state = req.body.state;
             campus.zipCode = req.body.zipCode;
-            const updatedCampus = await campus.save();
+            const updatedCampus = await Campus.updateOne({ campusId: req.params.campusId }, campus);
             res.status(200).json(updatedCampus);
         } else {
             res.status(404).json({ message: 'Campus not found' });

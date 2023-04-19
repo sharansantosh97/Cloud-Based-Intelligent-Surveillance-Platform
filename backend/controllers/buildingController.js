@@ -1,4 +1,7 @@
 const Building = require('../models/building');
+const _ = require('lodash');
+const Campus = require('../models/campus');
+const Camera = require('../models/camera');
 
 // const getNames = async (req, res, next) => {
 //   try {
@@ -14,6 +17,9 @@ const Building = require('../models/building');
 const getBuildings = async (req, res, next) => {
   try {
     const buildings = await Building.find();
+    for(let building of buildings) {
+      building.cameras = await Camera.find({buildingId: building._id});
+    }
     res.status(200).json({ buildings });
   } catch (error) {
     next(error);
@@ -37,9 +43,12 @@ const getBuildingsByFilters = async (req, res, next) => {
 }
 
 const createBuilding = async (req, res, next) => {
-  const building = new Building(req.body);
+  let body = req.body;
   try {
+    const building = new Building(body);
     const newBuilding = await building.save();
+    let campus = await Campus.find({_id: req.body.campusId}).lean();
+    console.log("Campus is ", campus)
     res.status(201).json(newBuilding);
   } catch (error) {
     next(error);
@@ -48,7 +57,7 @@ const createBuilding = async (req, res, next) => {
 
 const updateBuilding = async (req, res, next) => {
   try{
-    const building = await Building.findOne({ buildingId: req.params.buildingId });
+    const building = await Building.findOne({ _id: req.params.id });
     if (building) {
       building.name = req.body.name;
       building.address = req.body.address;
