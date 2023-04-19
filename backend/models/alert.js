@@ -33,6 +33,10 @@ const alertSchema = new mongoose.Schema({
     isRead: {
         type: Boolean,
         required: true
+    },
+    status: {
+        type: String,
+        required: true
     }
 
 });
