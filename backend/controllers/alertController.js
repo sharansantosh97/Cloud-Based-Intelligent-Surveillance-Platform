@@ -45,8 +45,15 @@ const createAlert = async (req, res, next) => {
 const updateAlert = async (req, res, next) => {
     try{
         let alert = await Alert.findOne({ _id: req.params.id });
-        if (alert) {
-            // alert = {...alert, ...req.body};
+        if(alert) {
+            alert.isRead = req.body.isRead;
+            alert.priority = req.body.priority;
+            alert.type = req.body.type;
+            alert.cameraId = req.body.cameraId;
+            alert.timestamp = req.body.timestamp;
+            alert.imageUrl = req.body.imageUrl;
+            alert.videoUrl = req.body.videoUrl;
+            alert.description = req.body.description;
             const updatedAlert = await Alert.updateOne({ _id: req.params.id }, alert);
             res.status(200).json(updatedAlert);
         }
