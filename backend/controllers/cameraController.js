@@ -1,8 +1,12 @@
+const Alert = require('../models/alert');
 const Camera = require('../models/camera');
 
 const getCameras = async (req, res, next) => {
     try {
         const cameras = await Camera.find();
+        for(let camera of cameras) {
+            camera.alerts = await Alert.find({cameraId: camera._id});
+          }
         res.status(200).json({ cameras });
     } catch (error) {
         next(error);

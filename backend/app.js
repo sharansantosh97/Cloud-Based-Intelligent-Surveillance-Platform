@@ -5,6 +5,7 @@ const videoDataRoutes = require('./routes/videoDataRoutes');
 const buildingRoutes = require('./routes/buildingRoutes');
 const cameraRoutes = require('./routes/cameraRoutes');
 const campusRoutes = require('./routes/campusRoutes');
+const alertRoutes = require('./routes/alertRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/campus', campusRoutes);
 app.use('/videoData', videoDataRoutes);
 app.use('/building', buildingRoutes);
 app.use('/camera', cameraRoutes);
+app.use('/alert', alertRoutes);
 
 const PORT = process.env.PORT || 3001;
 

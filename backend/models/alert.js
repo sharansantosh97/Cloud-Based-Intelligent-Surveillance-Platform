@@ -6,30 +6,35 @@ const alertSchema = new mongoose.Schema({
         ref: 'Camera',
         required: true
     },
-    alertType: {
+    type: {
         type: String,
         required: true
     },
-    alertTime: {
+    timestamp: {
         type: Date,
-        required: true
+        default: Date.now
     },
-    alertImage: {
+    imageUrl: {
         type: String,
         required: true
     },
-    alertVideo: {
+    videoUrl: {
         type: String,
         required: true
     },
-    alertDescription: {
+    description: {
         type: String,
         required: true
     },
-    alertStatus: {
+    priority: {
         type: String,
+        required: true
+    },
+    isRead: {
+        type: Boolean,
         required: true
     }
+
 });
 
 const Alert = mongoose.model('Alert', alertSchema);

@@ -26,7 +26,11 @@ const cameraSchema = new mongoose.Schema({
   healthStatus: {
     type: String,
     required: true
-  }
+  },
+  alerts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Alert'
+  }]
 });
 
 const Camera = mongoose.model('Camera', cameraSchema);
