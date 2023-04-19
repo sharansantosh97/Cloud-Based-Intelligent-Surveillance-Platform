@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const Building = require('../models/building');
-const Camera = require('../models/camera');
-const VideoData = require('../models/videoData');
-
 
 const connectDB = async () => {
   try {

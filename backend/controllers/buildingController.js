@@ -45,10 +45,10 @@ const getBuildingsByFilters = async (req, res, next) => {
 const createBuilding = async (req, res, next) => {
   let body = req.body;
   try {
+    console.log("Body: " + JSON.stringify(body));
     const building = new Building(body);
+    console.log("first building: " + JSON.stringify(building));
     const newBuilding = await building.save();
-    let campus = await Campus.find({_id: req.body.campusId}).lean();
-    console.log("Campus is ", campus)
     res.status(201).json(newBuilding);
   } catch (error) {
     next(error);

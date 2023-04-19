@@ -27,17 +27,6 @@ const campusSchema = new mongoose.Schema({
   }]
 });
 
-campusSchema.pre('save', async function(next) {
-  const campus = this;
-  const lastCampus = await Campus.findOne().sort({ campusId: -1 });
-  if (lastCampus) {
-    campus.campusId = lastCampus.campusId + 1;
-  } else {
-    campus.campusId = 1;
-  }
-  next();
-});
-
 const Campus = mongoose.model('Campus', campusSchema);
 
 module.exports = Campus;
