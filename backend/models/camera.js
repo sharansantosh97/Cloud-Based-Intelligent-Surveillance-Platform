@@ -1,43 +1,37 @@
 const mongoose = require('mongoose');
-const Building = require('./building');
+
 const cameraSchema = new mongoose.Schema({
   cameraId: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     unique: true
   },
-  buildingId: {
-    type: Number,
-    ref: 'Building',
+  name: {
+    type: String,
     required: true
+  },
+  buildingId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Building',
   },
   cameraType: {
-    type: String,
-    required: true
+    type: String
   },
   resolution: {
-    type: String,
-    required: true
+    type: String
   },
   location: {
+    type: [Number],
+    required: true
+  },
+  operationStatus: {
     type: String,
     required: true
   },
-  status: {
+  healthStatus: {
     type: String,
     required: true
   }
-});
-
-cameraSchema.pre('save', async function(next) {
-  const camera = this;
-  const lastCamera = await Camera.findOne().sort({ cameraId: -1 });
-  if (lastCamera) {
-    camera.cameraId = lastCamera.cameraId + 1;
-  } else {
-    camera.cameraId = 1;
-  }
-  next();
 });
 
 const Camera = mongoose.model('Camera', cameraSchema);

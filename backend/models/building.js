@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 
 const buildingSchema = new mongoose.Schema({
-  buildingId: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  buildingName: {
+  name: {
     type: String,
     required: true
   },
@@ -25,7 +20,16 @@ const buildingSchema = new mongoose.Schema({
   zipCode: {
     type: String,
     required: true
-  }
+  },
+  campusId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Campus',
+    required: true
+  },
+  cameras: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Camera'
+  }]
 });
 
 buildingSchema.pre('save', async function(next) {

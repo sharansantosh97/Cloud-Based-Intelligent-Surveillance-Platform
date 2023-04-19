@@ -1,58 +1,90 @@
 const Building = require('../models/building');
 
-const getNames = async (req, res, next) => {
+// const getNames = async (req, res, next) => {
+//   try {
+//     const buildings = await Building.find({}, 'buildingName');
+//     const buildingNames = buildings.map(building => building.buildingName);
+//     res.json({ buildingNames });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+const getBuildings = async (req, res, next) => {
   try {
-    const buildings = await Building.find({}, 'buildingName');
-    const buildingNames = buildings.map(building => building.buildingName);
-    res.json({ buildingNames });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+    const buildings = await Building.find();
+    res.status(200).json({ buildings });
+  } catch (error) {
+    next(error);
   }
+}
+
+const getBuildingsByFilters = async (req, res, next) => {
+  try {
+    let query = {};
+    if (req.query.buildingName) {
+      query.name = req.query.buildingName;
+    }
+    if (req.query.buildingId) {
+      query.buildingId = req.query.buildingId;
+    }
+    const buildings = await Building.find(query);
+    res.status(200).json({ buildings });
+  } catch (error) {
+    next(error);
+  }
+}
+
+const createBuilding = async (req, res, next) => {
+  const building = new Building(req.body);
+  try {
+    const newBuilding = await building.save();
+    res.status(201).json(newBuilding);
+  } catch (error) {
+    next(error);
+  }
+}
+
+const updateBuilding = async (req, res, next) => {
+  try{
+    const building = await Building.findOne({ buildingId: req.params.buildingId });
+    if (building) {
+      building.name = req.body.name;
+      building.address = req.body.address;
+      building.city = req.body.city;
+      building.state = req.body.state;
+      building.zipCode = req.body.zipCode;
+      const updatedBuilding = await building.save();
+      res.status(200).json(updatedBuilding);
+    }
+    else {
+      res.status(404).json({ message: 'Building not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+const deleteBuilding = async (req, res, next) => {
+  try {
+    console.log("Params id: " + req.params.id);
+    const building = await Building.findByIdAndDelete({ _id: req.params.id });
+    if (building) {
+      res.status(200).json({ message: 'Building removed' });
+    }
+    else {
+      res.status(404).json({ message: 'Building not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  getBuildings,
+  getBuildingsByFilters,
+  createBuilding,
+  updateBuilding,
+  deleteBuilding
 };
-
-module.exports = { getNames };
-
-// // Get all users
-// const getUsers = async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     res.status(200).json(users);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
-// // Create a new user
-// const createUser = async (req, res) => {
-//   const user = new User(req.body);
-//   try {
-//     const newUser = await user.save();
-//     res.status(201).json(newUser);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-// const getFullData = async (req, res) => {
-//   try {
-//     const data = await VideoData.find();
-//     res.status(200).json({data});
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
-// const sample = async (req, res) => {
-//   try {
-//     // const VideoData = await VideoData.find();
-//     res.status(200).json({"as":"Asas"});
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
-
-

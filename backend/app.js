@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const videoDataRoutes = require('./routes/videoDataRoutes');
 const buildingRoutes = require('./routes/buildingRoutes');
+const cameraRoutes = require('./routes/cameraRoutes');
+const campusRoutes = require('./routes/campusRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -26,16 +28,12 @@ app.use((req, res, next) => {
   next();
 });
 
-
+app.use('/campus', campusRoutes);
 app.use('/videoData', videoDataRoutes);
 app.use('/building', buildingRoutes);
+// app.use('/camera', cameraRoutes);
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// })
-
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () =>
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)

@@ -2,14 +2,10 @@ const express = require('express');
 const router = express.Router();
 const buildingController = require('../controllers/buildingController');
 
-
-
-
-router.get('/getList', buildingController.getNames);
-// router.get('/filterByBuildingName/:buildingName', videoDataController.filterByBuildingName);
-// router.get('/filterByCameraId/:cameraId', videoDataController.filterByCameraId);
-
-// POST a new user
-//router.post('/', userController.createUser);
+router.get('/', buildingController.getBuildings);
+router.get('/filters', buildingController.getBuildingsByFilters);
+router.post('/', buildingController.createBuilding);
+router.put('/:id', buildingController.updateBuilding);
+router.delete('/:id', buildingController.deleteBuilding);
 
 module.exports = router;
