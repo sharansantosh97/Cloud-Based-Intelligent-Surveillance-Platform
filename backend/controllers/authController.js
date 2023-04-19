@@ -3,17 +3,16 @@ const User = require('../models/user');
 const login = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
-    const records =  await User.find();
-
-    if(records?.length ==0){
-       // no user
+    const record =  await User.findOne({ email: email });
+    console.log("record",record);
+    if(!record){
        res.json({"status":401,"message":"no user present"});
     }else{
-       if(records[0].password == password){
-           req.session.isLoggedIn = true;
-            req.session.userId = records[0].id;
-           res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin, "userId":records[0].id
-                   ,name:records[0].firstName+" "+records[0].lastName});
+       if(record?.password == password){
+        //    req.session.isLoggedIn = true;
+            // req.session.userId = record._id;
+           res.json({"status":200,"message":"authorized","isAdmin":record.isAdmin, "userId":record._id
+                   ,name:record.firstName+" "+record.lastName});
        }else{
            res.json({"status":401,"message":"wrong password"});
        }
@@ -21,10 +20,10 @@ const login = async (req, res, next) => {
 }
 
 const logout = (req,res,next)=>{
-    req.session.destroy(err => {
-        console.log(err);
-        res.json({"status":200});
-    });
+    // req.session.destroy(err => {
+    //     console.log(err);
+    //     res.json({"status":200});
+    // });
 }
 
 const register = async (req,res,next)=>{

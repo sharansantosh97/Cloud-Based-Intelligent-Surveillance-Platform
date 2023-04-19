@@ -21,8 +21,7 @@ const getUser = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     let body = req.body;
     try {
-        const user = new User(body);
-        const newUser = await user.save();
+        const newUser = await User.create(body);
         res.status(201).json(newUser);
     } catch (error) {
         next(error);
