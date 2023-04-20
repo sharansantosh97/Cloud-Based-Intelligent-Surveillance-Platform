@@ -3,16 +3,16 @@ const _ = require('lodash');
 const Campus = require('../models/campus');
 const Camera = require('../models/camera');
 
-// const getNames = async (req, res, next) => {
-//   try {
-//     const buildings = await Building.find({}, 'buildingName');
-//     const buildingNames = buildings.map(building => building.buildingName);
-//     res.json({ buildingNames });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+const getNames = async (req, res, next) => {
+  try {
+    const buildings = await Building.find({}, 'name');
+    const buildingNames = buildings.map(building => building.name);
+    res.json({ buildingNames });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
 
 const getBuildings = async (req, res, next) => {
   try {
@@ -95,5 +95,6 @@ module.exports = {
   getBuildingsByFilters,
   createBuilding,
   updateBuilding,
-  deleteBuilding
+  deleteBuilding,
+  getNames
 };

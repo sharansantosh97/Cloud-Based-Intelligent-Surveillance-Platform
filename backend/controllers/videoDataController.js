@@ -11,7 +11,7 @@ const getVideoDataByFilters = async (req, res, next) => {
       };
     }
     if (req.query.buildingName) {
-      const buildingIds = await Building.find({ buildingName: new RegExp(req.query.buildingName, 'i') }).distinct('buildingId');
+      const buildingIds = await Building.find({ name: new RegExp(req.query.buildingName, 'i') }).distinct('buildingId');
       query.buildingId = { $in: buildingIds };
     }
     if (req.query.cameraId) {
